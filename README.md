@@ -8,7 +8,7 @@ This is a building block, it manage a very single lambda function.
 
 *Lambda*: a single, simple function that speak HTTP, you can run multiple instance of a single lambda at once, an example of lambda is a funcion of AWS Lambda.
 
-*effe*: An `effe` is a function 
+*effe*: An `effe` is one of this little programs compiled and running. 
 
 ## Life cicle
 
@@ -45,7 +45,9 @@ If you have open a database connection you may want to close it.
 
 #### Context
 
+Context is type that you need to define with everything you need to run your effe.
 
+Contexts can be created -- and as well destroyed -- at any time, you should not save any state in a context since there is not any guarantee.
 
 
 ## How to use
