@@ -71,9 +71,9 @@ To route the traffic we can write a proxy server that simply forward the calls t
 The proxy will need to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
 In this case however you only need one single IP address exposed, the effes can run inside not public exposed container.
 
-Another way to route the traffic is to use HAproxy which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
+Another way to route the traffic is to use [HAProxy](haproxy) which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
 
-Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes](kubernetes) which already provide a way to route the traffic via [Ingress](ingress) using HAproxy.
+Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes](kubernetes) which already provide a way to route the traffic via [Ingress](ingress) using HAProxy.
 
 ## Docker 
 
@@ -89,3 +89,4 @@ Surely you can use your own container with whatever images, but it is probably g
 [kubernetes]: http://kubernetes.io/
 [ingress]: http://kubernetes.io/v1.1/docs/user-guide/ingress.html
 [ca-certs]: https://hub.docker.com/r/centurylink/ca-certs/
+[haproxy]: http://www.haproxy.org/
