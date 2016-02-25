@@ -12,9 +12,9 @@ This is a building block, it manage a very single lambda function.
 
 ## Life cicle
 
-To use `effe` you can provide four different functions,`logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)` and a custom type: Context.
+To use `effe` you can provide four different functions,`logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)` and a custom type: `Context`.
 
-A very basic example is available in `logic/logic.com` directory, which is also the fastest way to get started. 
+A very basic example is available in `logic/logic.com`, which is also the fastest way to get started. 
 
 #### Init
 
