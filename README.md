@@ -63,7 +63,7 @@ It is also possible to compile everything down to a single executable, just run 
 
 ## How to use
 
-My idea is to run one or more docker containers for every lambda.
+My idea is to run one -- or multiple -- docker containers for every lambda.
 
 However our effes doesn't know what resource/URL it should respond, and we like this, but still we need a way to route the traffic.
 
