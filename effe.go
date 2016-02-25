@@ -28,7 +28,7 @@ func generateHandler(pool *sync.Pool, logger *syslog.Writer) func(http.ResponseW
 }
 
 func main() {
-    port := flag.Int("port", 8085, "Port where serve the effe.")
+    port := flag.Int("port", 8080, "Port where serve the effe.")
     flag.Parse()
     url := fmt.Sprintf(":%d", *port)
     logic.Init()
