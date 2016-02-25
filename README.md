@@ -6,9 +6,9 @@ This is a building block, it manage a very single lambda function.
 
 ## Terminology
 
-*Lambda*: a single, simple function that speak HTTP, you can run multiple instance of a single lambda at once, an example of lambda is a funcion of AWS Lambda.
+**Lambda**: a single, simple function that speak HTTP, you can run multiple instance of a single lambda at once, an example of lambda is a funcion of AWS Lambda.
 
-*effe*: An `effe` is one of this little programs compiled and running. 
+**effe**: An `effe` is one of this little programs compiled and running. 
 
 ## Life cicle
 
@@ -51,7 +51,13 @@ Contexts can be created -- and as well destroyed -- at any time, you should not 
 
 ## Getting start
 
-The easiest way to get started with `effe` is to clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile main`
+The easiest way to get started with `effe` is to clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
+
+You can run the binary with `./effe` and it should be exposed on the port 8080 of your localhost.
+
+If you prefer to expose in some other port it is enough to launch `./effe -port $PORT`, as an example to expose on the 7050 you will launch `./effe -port 7050`.
+
+It is also possible to compile everything down to a single executable, just run `go compile -buildmode=exe effe`, the executable will be bigger, but it can run in a very small docker images, more below.
 
 ## How to use
 
@@ -59,19 +65,19 @@ My idea is to run one or more docker containers for every lambda.
 
 However our effes doesn't know what resource/URL it should respond, and we like this, but still we need a way to route the traffic.
 
-To route the traffic we can write a proxy server that simply forward the calls which is a simple to solution but may have scaling problem and it is somehow slow. 
-There is the need for the proxy to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
-In this case however you only need one single IP address exposed, the effes can run inside not exposed container.
+To route the traffic we can write a proxy server that simply forward the calls to the appropriate server, this is a simple to solution but may have scaling problem and it is somehow slow. 
+The proxy will need to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
+In this case however you only need one single IP address exposed, the effes can run inside not public exposed container.
 
 Another way to route the traffic is to use HAproxy which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
 
-Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes](kubernetes) which already provide a way to route the traffic via [Ingress](ingress).
+Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes](kubernetes) which already provide a way to route the traffic via [Ingress](ingress) using HAproxy.
 
 ## Docker 
 
 Effe can be compiled down to sigle binary, it means that you can have a very light docker images with inside only the necessary logic to run effe.
 
-However since we want effe to use http*s* is necessary to provide the certificates, it means that we cannot use the `SCRATCH` images from docker but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs](ca-certs).
+However since we want effe to use http**s** is necessary to provide the certificates, it means that we cannot use the `SCRATCH` images from docker but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs](ca-certs).
 
 Of course you can feel free to build a similar images with only the certificates you trust and maybe you could also share such image.
 
