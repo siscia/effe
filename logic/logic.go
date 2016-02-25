@@ -1,10 +1,11 @@
-// filename: lambda.go
 package logic
 
-import "net/http"
-import "fmt"
-import "math/rand"
-import "time"
+import (
+    "net/http"
+    "fmt"
+    "math/rand"
+    "time"
+)
 
 type Context struct{
     value int64

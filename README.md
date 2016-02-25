@@ -49,6 +49,9 @@ Context is type that you need to define with everything you need to run your eff
 
 Contexts can be created -- and as well destroyed -- at any time, you should not save any state in a context since there is not any guarantee.
 
+## Getting start
+
+The easiest way to get started with `effe` is to clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile main`
 
 ## How to use
 
