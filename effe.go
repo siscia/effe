@@ -5,6 +5,9 @@ import(
     "net/http"
     "sync"
     "log/syslog"
+    "flag"
+    //"strconv"
+    "fmt"
 )
 
 func generateHandler(pool *sync.Pool, logger *syslog.Writer) func(http.ResponseWriter, *http.Request) {
@@ -25,10 +28,13 @@ func generateHandler(pool *sync.Pool, logger *syslog.Writer) func(http.ResponseW
 }
 
 func main() {
+    port := flag.Int("port", 8085, "Port where serve the effe.")
+    flag.Parse()
+    url := fmt.Sprintf(":%d", *port)
     logic.Init()
     logger, _ := syslog.New(syslog.LOG_ERR | syslog.LOG_USER, "Logs From Effe ")
     var ctxPool = &sync.Pool{New: func () interface{} {
 	return logic.Start()} }
     http.HandleFunc("/", generateHandler(ctxPool, logger))
-    http.ListenAndServe(":8080", nil)
+    http.ListenAndServe(url, nil)
 }
