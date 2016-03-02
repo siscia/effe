@@ -12,7 +12,7 @@ This is a building block, it manage a very single lambda function.
 
 ## Life cicle
 
-To use `effe` you can provide four different functions,`logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)` and a custom type: `Context`.
+To use `effe` you can provide a custom type: `Context`, four different functions,`logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)` and string variable `Info`.
 
 A very basic example is available in `logic/logic.com`, which is also the fastest way to get started. 
 
@@ -50,6 +50,14 @@ If you have open a database connection you may want to close it.
 Context is type that you need to define with everything you need to run your effe.
 
 Contexts can be created -- and as well destroyed -- at any time, you should not save any state in a context since there is not any guarantee.
+
+#### Info
+
+Info is a JSON string, this string is printed when your effe is invoke with the `-info` parameter.
+
+All the information saved here can be used in a later stage of the process (eg. During deployment).
+
+In particular the information associate with the key `name` and the key `version` are used by `effe-tool` to name the executable in a coherent way.
 
 ## Getting start
 
