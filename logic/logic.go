@@ -2,7 +2,6 @@ package logic
 
 import (
 	"fmt"
-	log "github.com/Sirupsen/logrus"
 	"math/rand"
 	"net/http"
 	"time"
@@ -30,10 +29,7 @@ func Start() Context {
 }
 
 func Run(ctx Context, w http.ResponseWriter, r *http.Request) error {
-	fmt.Fprintf(w, "Hello from Effe with logs:  %d", ctx.value)
-	log.WithFields(log.Fields{
-		"animal": "walrus",
-	}).Info("A walrus appears")
+	fmt.Fprintf(w, "Hello from Effe:  %d\n", ctx.value)
 	return nil
 }
 
