@@ -61,6 +61,8 @@ In particular the information associate with the key `name` and the key `version
 
 ## Getting start
 
+The easiest and fastest way to use `effes` is with 
+
 The easiest way to get started with `effe` is to clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
 
 You can run the binary with `./effe` and it should be exposed on the port 8080 of your localhost.
@@ -79,15 +81,15 @@ To route the traffic we can write a proxy server that simply forward the calls t
 The proxy will need to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
 In this case however you only need one single IP address exposed, the effes can run inside not public exposed container.
 
-Another way to route the traffic is to use [HAProxy](haproxy) which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
+Another way to route the traffic is to use [HAProxy][haproxy] which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
 
-Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes](kubernetes) which already provide a way to route the traffic via [Ingress](ingress) using HAProxy.
+Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes][kubernetes] which already provide a way to route the traffic via [Ingress][ingress] using HAProxy.
 
 ## Docker 
 
 Effe can be compiled down to sigle binary, it means that you can have a very light docker images with inside only the necessary logic to run effe.
 
-However since we want effe to use http**s** is necessary to provide the certificates, it means that we cannot use the `SCRATCH` images from docker but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs](ca-certs).
+However since we want effe to use http**s** is necessary to provide the certificates, it means that we cannot use the `SCRATCH` images from docker but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs][ca-certs].
 
 Of course you can feel free to build a similar images with only the certificates you trust and maybe you could also share such image.
 
