@@ -61,9 +61,11 @@ In particular the information associate with the key `name` and the key `version
 
 ## Getting start
 
-The easiest and fastest way to use `effes` is with 
+The easiest and fastest way to use `effes` is using [effe-tool][effe-tool].
 
-The easiest way to get started with `effe` is to clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
+Effe-tool provide an automatic way to generate a new empty effe that you can populate with your logic, and a simple way to compile it.
+
+If you don't want to use `effe-tool` you can also clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
 
 You can run the binary with `./effe` and it should be exposed on the port 8080 of your localhost.
 
@@ -75,7 +77,7 @@ It is also possible to compile everything down to a single executable, just run 
 
 My idea is to run one -- or multiple -- docker containers for every lambda.
 
-However our effes doesn't know what resource/URL it should respond, and we like this, but still we need a way to route the traffic.
+However our effes don't know what resource/URL it should respond to, and we like this, but still we need a way to route the traffic.
 
 To route the traffic we can write a proxy server that simply forward the calls to the appropriate server, this is a simple to solution but may have scaling problem and it is somehow slow. 
 The proxy will need to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
@@ -96,6 +98,7 @@ Of course you can feel free to build a similar images with only the certificates
 Surely you can use your own container with whatever images, but it is probably going to be bigger than this strategy.
 
 
+[effe-tool]: https://github.com/siscia/effe-tool
 [kubernetes]: http://kubernetes.io/
 [ingress]: http://kubernetes.io/v1.1/docs/user-guide/ingress.html
 [ca-certs]: https://hub.docker.com/r/centurylink/ca-certs/
