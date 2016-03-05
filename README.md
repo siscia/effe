@@ -4,6 +4,7 @@ Effe, is an etremely simple building block to build a "server-less" architecture
 
 This is a building block, it manage a very single lambda function.
 
+
 ## Terminology
 
 **Lambda**: a single, simple function that speak HTTP, you can run multiple instance of a single lambda at once, an example of lambda is a funcion of AWS Lambda.
@@ -59,6 +60,12 @@ All the information saved here can be used in a later stage of the process (eg. 
 
 In particular the information associate with the key `name` and the key `version` are used by `effe-tool` to name the executable in a coherent way.
 
+## Dependencies
+
+`effe` dependencies are managed in the same way of the dependencies of any golang project.
+
+As long as the dependencies are on your gopath, effe will compile.
+
 ## Getting start
 
 The easiest and fastest way to use `effes` is using [effe-tool][effe-tool].
@@ -75,7 +82,7 @@ It is also possible to compile everything down to a single executable, just run 
 
 ## How to use
 
-My idea is to run one -- or multiple -- docker containers for every lambda.
+The idea is to run one -- or multiple -- docker containers for every lambda.
 
 However our effes don't know what resource/URL it should respond to, and we like this, but still we need a way to route the traffic.
 
