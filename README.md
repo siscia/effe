@@ -1,19 +1,19 @@
 # Effe, a simple Open Source building block to emulate AWS Lambda
 
-Effe, is an etremely simple building block to build a "server-less" architecture.
+Effe is an extremely simple building block with which to build a "server-less" architecture.
 
-This is a building block, it manage a very single lambda function.
+This is a building block, operates on the level of a single lambda function.
 
 
 ## Terminology
 
-**Lambda**: a single, simple function that speak HTTP, you can run multiple instance of a single lambda at once, an example of lambda is a funcion of AWS Lambda.
+**Lambda**: a single, simple function that speaks HTTP.  You can run multiple instances of a single lambda at once. An example of a lambda is what is called a "function" in AWS Lambda.
 
-**effe**: An `effe` is one of this little programs compiled and running. 
+**effe**: An `effe` is one of these little programs, compiled and running. 
 
-## Life cicle
+## Life cycle
 
-To use `effe` you can provide a custom type: `Context`, four different functions,`logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)` and string variable `Info`.
+To use `effe`, you can provide a custom type: `Context` and four different functions, `logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)`, and string variable `Info`.
 
 A very basic example is available in `logic/logic.com`, which is also the fastest way to get started. 
 
@@ -25,44 +25,44 @@ The function `logic.Init()` it is run once and only once when an effe is started
 
 The function `logic.Start() Context` takes no argument and return a `Context`.
 
-This function it can be run multiple times if the effe is under heavy load, or just once, if the effe is not under load.
+This function can be run multiple times if the effe is under heavy load, or just once, if the effe is not under load.
 
 You can initialize connections to databases, communicate with a discovery services, or pretty much whatever.
 
-You can pack whatever information inside the Context that it will be passed to `logic.Run`
+You can pack whatever information inside the Context and it will be passed to `logic.Run`
 
 #### Run
 
-This function is called every time an effe is invoke, it is pretty similar to a simple `http handler` the only difference is that is take also a `Context` as first argument.
+This function is called every time an effe is invoked.  It is pretty similar to a simple `http handler`, the only difference is that it also takes a `Context` as the first argument.
 
-Yourself have compose the `Context` in the `Start` function so it is very powerfull, however you definitely shouldn't save any form of state inside the `Context`.
+You must compose the `Context` in the `Start` function.  So, it is very powerful, however you definitely shouldn't save any form of state inside the `Context`.
 
 This function can read the request and provide a responses.
 
-It can also return an `error`, the error will not be handle but it will be logged to syslog, if everything went good and nothing need to be logged you should return `nil`.
+It can also return an `error`, the error will not be handled, but it will be logged to syslog, if everything went well and nothing needed to be logged you should return `nil`.
 
 #### Stop
 
-This function takes the `Context` and gracefully destroy it. 
+This function takes the `Context` and gracefully destroys it. 
 If you have open a database connection you may want to close it.
 
 #### Context
 
-Context is type that you need to define with everything you need to run your effe.
+Context is the type that you need to define with everything you need to run your effe.
 
-Contexts can be created -- and as well destroyed -- at any time, you should not save any state in a context since there is not any guarantee.
+Contexts can be created -- and as well destroyed -- at any time.  You should not save any state in a context since there are not any guarantees.
 
 #### Info
 
-Info is a JSON string, this string is printed when your effe is invoke with the `-info` parameter.
+Info is a JSON string.  This string is printed when your effe is invoked with the `-info` parameter.
 
 All the information saved here can be used in a later stage of the process (eg. During deployment).
 
-In particular the information associate with the key `name` and the key `version` are used by `effe-tool` to name the executable in a coherent way.
+In particular the information associated with the key `name` and the key `version` are used by `effe-tool` to name the executable in a coherent way.
 
 ## Dependencies
 
-`effe` dependencies are managed in the same way of the dependencies of any golang project.
+`effe` dependencies are managed in the same way as the dependencies of any golang project.
 
 As long as the dependencies are on your gopath, effe will compile.
 
@@ -70,39 +70,39 @@ As long as the dependencies are on your gopath, effe will compile.
 
 The easiest and fastest way to use `effes` is using [effe-tool][effe-tool].
 
-Effe-tool provide an automatic way to generate a new empty effe that you can populate with your logic, and a simple way to compile it.
+Effe-tool provides an automatic way to generate a new empty effe that you can populate with your logic, and a simple way to compile it.
 
-If you don't want to use `effe-tool` you can also clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
+If you don't want to use `effe-tool`, you can also clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
 
-You can run the binary with `./effe` and it should be exposed on the port 8080 of your localhost.
+You can run the binary with `./effe` and it should be exposed on port 8080 of your localhost.
 
-If you prefer to expose in some other port it is enough to launch `./effe -port $PORT`, as an example to expose on the 7050 you will launch `./effe -port 7050`.
+If you prefer to expose some other port it is enough to launch `./effe -port $PORT`.  As an example, to listen on port 7050 you will launch `./effe -port 7050`.
 
-It is also possible to compile everything down to a single executable, just run `go compile -buildmode=exe effe`, the executable will be bigger, but it can run in a very small docker images, more below.
+It is also possible to compile everything down to a single executable.  Just run `go compile -buildmode=exe effe`.  The executable will be bigger, but it can run in a very small docker image, see more on this below.
 
 ## How to use
 
 The idea is to run one -- or multiple -- docker containers for every lambda.
 
-However our effes don't know what resource/URL it should respond to, and we like this, but still we need a way to route the traffic.
+However, our effes don't know what resource/URL they should respond to, and we like this, but still we need a way to route the traffic.
 
-To route the traffic we can write a proxy server that simply forward the calls to the appropriate server, this is a simple to solution but may have scaling problem and it is somehow slow. 
-The proxy will need to accept the external call, decide what effe is necessary to call, make another HTTP request, wait on the result, and finaly send the result back.
-In this case however you only need one single IP address exposed, the effes can run inside not public exposed container.
+To route the traffic we can write a proxy server that simply forwards the calls to the appropriate server.  This is a simple to solution, but may have scaling problems and it is somehow slow. 
+The proxy will need to accept the external call, decide which effe is need be called, make another HTTP request, wait on the result, and finally send the result back.
+In this case however you only need a single IP address exposed.  The effes can run inside, rather than having a publically exposed container.
 
-Another way to route the traffic is to use [HAProxy][haproxy] which doesn't accept the HTTP request but simply re-route it to a particular server. In this case there is only one HTTP request instead of two but every single effe need to be exposed to the web.
+Another way to route the traffic is to use [HAProxy][haproxy] which doesn't accept the HTTP request but simply re-routes it to a particular server. In this case there is only one HTTP request instead of two, but every single effe needs to be exposed to the web.
 
-Either way you will need to manage a lot of containers, it is a good idea to use an automatic tool to create the docker instances, I would suggest to look into [Kubernetes][kubernetes] which already provide a way to route the traffic via [Ingress][ingress] using HAProxy.
+Either way, you will need to manage a lot of containers, so it is a good idea to use an automatic tool to create the docker instances.  I would suggest looking into [Kubernetes][kubernetes], which already provides a way to route the traffic via [Ingress][ingress] using HAProxy.
 
 ## Docker 
 
-Effe can be compiled down to sigle binary, it means that you can have a very light docker images with inside only the necessary logic to run effe.
+Effe can be compiled down to single binary. This means that you can have very light docker images with containing only the necessary logic to run effe.
 
-However since we want effe to use http**s** is necessary to provide the certificates, it means that we cannot use the `SCRATCH` images from docker but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs][ca-certs].
+However, since we want effe to use http**s**, it is necessary to provide the certificates.  This means that we cannot use the `SCRATCH` images from docker, but we need to include some certificates. A docker container with nothing but the certificates is [centurylink/ca-certs][ca-certs].
 
-Of course you can feel free to build a similar images with only the certificates you trust and maybe you could also share such image.
+Of course you can feel free to build similar images with only the certificates you trust (and maybe you could also share such images).
 
-Surely you can use your own container with whatever images, but it is probably going to be bigger than this strategy.
+Surely, you can use your own container with whatever images, but it is probably going to be bigger than this strategy.
 
 
 [effe-tool]: https://github.com/siscia/effe-tool
