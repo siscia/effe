@@ -107,6 +107,7 @@ Of course you can feel free to build similar images with only the certificates y
 Surely, you can use your own container with whatever images, but it is probably going to be bigger than this strategy.
 
 
+
 [effe-tool]: https://github.com/siscia/effe-tool
 [kubernetes]: http://kubernetes.io/
 [ingress]: http://kubernetes.io/v1.1/docs/user-guide/ingress.html
