@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/siscia/effe.svg?branch=master)](https://travis-ci.org/siscia/effe)
+
 # Effe, a simple Open Source building block to emulate AWS Lambda
 
 Effe is an extremely simple building block with which to build a "server-less" architecture.
@@ -9,13 +11,13 @@ This is a building block, operates on the level of a single lambda function.
 
 **Lambda**: a single, simple function that speaks HTTP.  You can run multiple instances of a single lambda at once. An example of a lambda is what is called a "function" in AWS Lambda.
 
-**effe**: An `effe` is one of these little programs, compiled and running. 
+**effe**: An `effe` is one of these little programs, compiled and running.
 
 ## Life cycle
 
 To use `effe`, you can provide a custom type: `Context` and four different functions, `logic.Init()`, `logic.Start() Context`, `logic.Run(Context, http.ResponseWritter, *http.Request) error`, `logic.Stop(Context)`, and string variable `Info`.
 
-A very basic example is available in `logic/logic.com`, which is also the fastest way to get started. 
+A very basic example is available in `logic/logic.com`, which is also the fastest way to get started.
 
 #### Init
 
@@ -43,7 +45,7 @@ It can also return an `error`, the error will not be handled, but it will be log
 
 #### Stop
 
-This function takes the `Context` and gracefully destroys it. 
+This function takes the `Context` and gracefully destroys it.
 If you have open a database connection you may want to close it.
 
 #### Context
@@ -72,7 +74,7 @@ The easiest and fastest way to use `effes` is using [effe-tool][effe-tool].
 
 Effe-tool provides an automatic way to generate a new empty effe that you can populate with your logic, and a simple way to compile it.
 
-If you don't want to use `effe-tool`, you can also clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`. 
+If you don't want to use `effe-tool`, you can also clone this repo, modify the `logic.go` file in such a way that is coherent with your goals and run `go compile effe`.
 
 You can run the binary with `./effe` and it should be exposed on port 8080 of your localhost.
 
@@ -86,7 +88,7 @@ The idea is to run one -- or multiple -- docker containers for every lambda.
 
 However, our effes don't know what resource/URL they should respond to, and we like this, but still we need a way to route the traffic.
 
-To route the traffic we can write a proxy server that simply forwards the calls to the appropriate server.  This is a simple to solution, but may have scaling problems and it is somehow slow. 
+To route the traffic we can write a proxy server that simply forwards the calls to the appropriate server.  This is a simple to solution, but may have scaling problems and it is somehow slow.
 The proxy will need to accept the external call, decide which effe is need be called, make another HTTP request, wait on the result, and finally send the result back.
 In this case however you only need a single IP address exposed.  The effes can run inside, rather than having a publically exposed container.
 
@@ -94,7 +96,7 @@ Another way to route the traffic is to use [HAProxy][haproxy] which doesn't acce
 
 Either way, you will need to manage a lot of containers, so it is a good idea to use an automatic tool to create the docker instances.  I would suggest looking into [Kubernetes][kubernetes], which already provides a way to route the traffic via [Ingress][ingress] using HAProxy.
 
-## Docker 
+## Docker
 
 Effe can be compiled down to single binary. This means that you can have very light docker images with containing only the necessary logic to run effe.
 
