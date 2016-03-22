@@ -1,9 +1,9 @@
 package main
 
 import (
-	"effe/logic"
 	"flag"
 	"fmt"
+	"github.com/siscia/effe/logic"
 	"log/syslog"
 	"net/http"
 	"sync"
