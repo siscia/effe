@@ -23,12 +23,12 @@ func Init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
-func Start() Context {
+func Start() (Context, error) {
 	fmt.Println("Start new Context")
-	return Context{1 + rand.Int63n(2)}
+	return Context{1 + rand.Int63n(2)}, nil
 }
 
-func Run(ctx Context, w http.ResponseWriter, r *http.Request) error {
+func Run(ctx Context, err error, w http.ResponseWriter, r *http.Request) error {
 	fmt.Fprintf(w, "Hello from Effe:  %d\n", ctx.value)
 	return nil
 }
