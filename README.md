@@ -25,7 +25,7 @@ The function `logic.Init()` it is run once and only once when an effe is started
 
 #### Start
 
-The function `logic.Start() Context` takes no argument and return a `Context`.
+The function `logic.Start() Context` takes no argument and return a `Context` and an error.
 
 This function can be run multiple times if the effe is under heavy load, or just once, if the effe is not under load.
 
@@ -33,9 +33,15 @@ You can initialize connections to databases, communicate with a discovery servic
 
 You can pack whatever information inside the Context and it will be passed to `logic.Run`
 
+If everything goes well, the error should be `nil`, if some problems arise you can provide any error you want.
+
+Return a not-nil error means that the context won't be put in cache, however, the computation that required the context will actually use it.
+
 #### Run
 
-This function is called every time an effe is invoked.  It is pretty similar to a simple `http handler`, the only difference is that it also takes a `Context` as the first argument.
+This function is called every time an effe is invoked.  It is pretty similar to a simple `http handler`, the only difference is that it also takes a `Context` as the first argument and an `error` as second argument.
+
+It is possible that some `Run` will runs with an error so, if it is possible for `Start` to return an error, then `Run` should be able to handle it.
 
 You must compose the `Context` in the `Start` function.  So, it is very powerful, however you definitely shouldn't save any form of state inside the `Context`.
 
