@@ -1,9 +1,9 @@
 package main
 
 import (
-	"effe/logic"
 	"flag"
 	"fmt"
+	"github.com/siscia/effe/logic"
 	"log/syslog"
 	"net/http"
 	"sync"
@@ -46,7 +46,7 @@ func main() {
 	logger, _ := syslog.New(syslog.LOG_ERR|syslog.LOG_USER, "Logs From Effe ")
 	var ctxPool = &sync.Pool{New: func() interface{} {
 		ctx, err := logic.Start()
-		return complexContext(ctx, err)
+		return complexContext{ctx, err}
 	}}
 	http.HandleFunc("/", generateHandler(ctxPool, logger))
 	http.ListenAndServe(url, nil)
