@@ -88,6 +88,10 @@ If you prefer to expose some other port it is enough to launch `./effe -port $PO
 
 It is also possible to compile everything down to a single executable.  Just run `go compile -buildmode=exe effe`.  The executable will be bigger, but it can run in a very small docker image, see more on this below.
 
+If you are having problems running `effe` with `effe-tool` I made a short video, please note that the video refer to an older version of effe which required the `Start` function to return only a `Context`, the newer version require the `Start` function to return a `Context` **and** an `error`.
+
+[![Effe Short Intro](https://www.youtube.com/watch?v=dItO9E29WRQ/0.jpg)](https://www.youtube.com/watch?v=dItO9E29WRQ)
+
 ## How to use
 
 The idea is to run one -- or multiple -- docker containers for every lambda.
